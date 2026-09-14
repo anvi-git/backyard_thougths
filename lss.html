@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LAST SCATTERING SURFACE</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon_io/bt_logo.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=UnifrakturMaguntia&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="lss_data.js"></script>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main id="main-content" class="page-wrapper collection-page publication-home lss-page">
+    <h1 class="publication-title-image-wrap">
+      <img src="images/titles/lss.png" alt="LAST SCATTERING SURFACE" class="publication-title-image">
+    </h1>
+
+    <section id="lss-featured" class="publication-featured"></section>
+    <section id="lss-sections" class="publication-sections"></section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const dedupeArticles = sourceArticles => {
+        const scoreArticle = article => {
+          const file = ((article && article.markdownFile) || '').toLowerCase();
+          if (file.endsWith('.html')) return 2;
+          if (file.endsWith('.md')) return 1;
+          return 0;
+        };
+
+        const normalize = value => (value || '').toString().trim().toLowerCase();
+        const makeKey = article => [
+          normalize(article && article.title),
+          normalize(article && article.date),
+          normalize(article && article.excerpt)
+        ].join('||');
+
+        const bestByKey = new Map();
+
+        Object.entries(sourceArticles || {}).forEach(([id, article]) => {
+          const candidate = { id, article, score: scoreArticle(article) };
+          const key = makeKey(article);
+          const existing = bestByKey.get(key);
+
+          if (!existing || candidate.score > existing.score) {
+            bestByKey.set(key, candidate);
+          }
+        });
+
+        const articles = {};
+        bestByKey.forEach(entry => {
+          articles[entry.id] = entry.article;
+        });
+
+        return articles;
+      };
+
+      const getCurrentLanguage = () => {
+        const queryLanguage = (new URLSearchParams(window.location.search).get('lang') || '').toLowerCase();
+        return queryLanguage === 'it' ? 'ita' : 'eng';
+      };
+
+      const normalizeArticleLanguage = article => {
+        const value = (article && article.language ? article.language : '').toString().trim().toLowerCase();
+        if (value === 'it' || value === 'ita' || value === 'italian') return 'ita';
+        return 'eng';
+      };
+
+      const getArticleSlug = article => {
+        const markdownFile = ((article && article.markdownFile) || '').toString();
+        const filename = markdownFile.split('/').pop() || '';
+        return filename.replace(/\.(md|html)$/i, '');
+      };
+
+      const buildArticleHref = article => {
+        const slug = getArticleSlug(article);
+        return slug ? `lss_article.html?article=${encodeURIComponent(slug)}` : 'lss_article.html';
+      };
+
+      const createSectionBlock = (title, items, buildHref) => {
+        const pageSize = 4;
+        let page = 0;
+        const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
+
+        const block = document.createElement('section');
+        block.className = 'publication-section-block';
+        block.innerHTML = `
+          <h2 class="publication-section-title">${title}</h2>
+          <div class="publication-section-rail"></div>
+          <div class="publication-section-controls">
+            <button class="publication-section-nav prev" type="button" aria-label="Show previous posts">Previous</button>
+            <span class="publication-section-page"></span>
+            <button class="publication-section-nav next" type="button" aria-label="Show next posts">Next</button>
+          </div>
+        `;
+
+        const rail = block.querySelector('.publication-section-rail');
+        const prev = block.querySelector('.publication-section-nav.prev');
+        const next = block.querySelector('.publication-section-nav.next');
+        const pageLabel = block.querySelector('.publication-section-page');
+
+        const renderPage = () => {
+          rail.innerHTML = '';
+          const start = page * pageSize;
+          const pageItems = items.slice(start, start + pageSize);
+
+          pageItems.forEach(({ id, article }) => {
+            const card = document.createElement('a');
+            card.className = 'publication-small-card';
+            card.href = buildHref(id, article);
+
+            const imageMarkup = article.image
+              ? `<img src="${article.image}" alt="${article.title}" class="publication-small-image">`
+              : '<div class="publication-small-image publication-small-image-empty" aria-hidden="true"></div>';
+
+            card.innerHTML = `
+              ${imageMarkup}
+              <div class="publication-small-content">
+                <h3 class="publication-small-title">${article.title}</h3>
+                <p class="publication-small-excerpt">${article.excerpt || ''}</p>
+              </div>
+            `;
+            rail.appendChild(card);
+          });
+
+          prev.disabled = page <= 0;
+          next.disabled = page >= totalPages - 1;
+          if (pageLabel) pageLabel.textContent = `${page + 1} / ${totalPages}`;
+        };
+
+        prev.addEventListener('click', () => {
+          if (page <= 0) return;
+          page -= 1;
+          renderPage();
+        });
+
+        next.addEventListener('click', () => {
+          if (page >= totalPages - 1) return;
+          page += 1;
+          renderPage();
+        });
+
+        if (totalPages <= 1) {
+          prev.style.visibility = 'hidden';
+          next.style.visibility = 'hidden';
+        }
+
+        renderPage();
+        return block;
+      };
+
+      const sectionsContainer = document.getElementById('lss-sections');
+      const featured = document.getElementById('lss-featured');
+      const currentLanguage = getCurrentLanguage();
+      const articles = dedupeArticles(window.LSS_ARTICLES || {});
+      const ids = Object.keys(articles).sort((a, b) => {
+        const da = new Date(articles[a].date || 0);
+        const db = new Date(articles[b].date || 0);
+        return db - da;
+      });
+
+      const languageIds = ids.filter(id => normalizeArticleLanguage(articles[id]) === currentLanguage);
+
+      if (!languageIds.length) {
+        featured.innerHTML = '<p>No posts yet.</p>';
+        return;
+      }
+
+      const [latestId, ...restIds] = languageIds;
+      const latest = articles[latestId];
+
+      featured.innerHTML = `
+        <a class="publication-featured-card" href="${buildArticleHref(latest)}">
+          ${latest.image ? `<img src="${latest.image}" alt="${latest.title}" class="publication-featured-image">` : '<div class="publication-featured-image publication-featured-image-empty"></div>'}
+          <div class="publication-featured-content">
+            <p class="publication-featured-meta">Latest</p>
+            <h2 class="publication-featured-title">${latest.title}</h2>
+            <p class="publication-featured-excerpt">${latest.excerpt || ''}</p>
+          </div>
+        </a>
+      `;
+
+      const sections = [
+        {
+          key: 'star-story',
+          title: 'story of a star',
+          match: article => (article.title || '').toLowerCase().includes('story of a star'),
+          splitByLanguage: true
+        },
+        {
+          key: 'annals',
+          title: 'annals of lss',
+          match: article => (article.title || '').toLowerCase().includes('annals of lss'),
+          splitByLanguage: true
+        },
+        {
+          key: 'proceedings',
+          title: 'proceedings of lss',
+          match: article => (article.title || '').toLowerCase().includes('proceedings of lss'),
+          splitByLanguage: true
+        },
+        {
+          key: 'essays',
+          title: 'last scattering surface essays',
+          match: () => true,
+          splitByLanguage: true
+        }
+      ];
+
+      const sectionBuckets = new Map();
+      sections.forEach(section => sectionBuckets.set(section.key, []));
+
+      restIds.forEach(id => {
+        const article = articles[id];
+        const matched = sections.find(section => section.match(article));
+        if (matched) sectionBuckets.get(matched.key).push({ id, article });
+      });
+
+      sections.forEach(section => {
+        const items = sectionBuckets.get(section.key) || [];
+        if (!items.length) return;
+
+        if (section.splitByLanguage) {
+          const byLanguage = { eng: [], ita: [] };
+          items.forEach(item => {
+            byLanguage[normalizeArticleLanguage(item.article)].push(item);
+          });
+
+          const languageItems = byLanguage[currentLanguage] || [];
+          if (!languageItems.length) return;
+
+          sectionsContainer.appendChild(
+            createSectionBlock(section.title, languageItems, (_id, article) => buildArticleHref(article))
+          );
+          return;
+        }
+
+        sectionsContainer.appendChild(
+          createSectionBlock(section.title, items, (_id, article) => buildArticleHref(article))
+        );
+      });
+    });
+  </script>
+
+  <script src="layout.js"></script>
+  <script src="headerScrollState.js" defer></script>
+</body>
+</html>
