@@ -305,6 +305,11 @@
         border-top: 1px solid var(--ink, #1a1a18);
         border-left: 0;
       }
+
+      .magazine-reader object {
+        max-height: 100vh; 
+      }
+
     }
   </style>
 </head>
@@ -417,14 +422,20 @@
       <p id="archive-note" class="magazine-section-label">The archive</p>
 
       <p>
-        The Magazine is a route through Backyard rather than a replacement
-        for its individual publications. Explore the full archives of
+        Explore the full archives of
         <a href="ht.html">Heralding Time</a>,
         <a href="lss.html">Last Scattering Surface</a>, and
         <a href="sp.html">Space of Sound</a>.
       </p>
     </section>
   </main>
+
+  <section class="magazine-reader" aria-label="Read the magazine">
+    <object data="assets/BackyardMag.pdf" type="application/pdf" width="100%" height="900">
+      <p>Your browser cannot display PDFs inline. <a href="assets/BackyardMag.pdf" target="_blank" rel="noopener">Open the magazine PDF</a></p>
+    </object>
+  </section>
+
 
   <div include-html="footer.html"></div>
 
