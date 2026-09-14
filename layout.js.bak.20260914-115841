@@ -7,7 +7,6 @@
     'lss.html': 'Last Scattering Surface',
     'sp.html': 'Space of Sound',
     'blog.html': 'The Blog',
-    'magazine.html': 'The Magazine',
     'about.html': 'About'
   };
 

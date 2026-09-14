@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="description"
+    content="The Magazine — a periodic selection from Backyard Magazine."
+  >
+  <title>The Magazine — Issue No. 01 | Backyard</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="addons.css">
+
+  <style>
+    /*
+      The page deliberately reuses Backyard's existing design tokens:
+      --ink, --ink-muted, --ink-faint, --paper, and its loaded fonts.
+      These rules only compose a magazine layout around the established
+      BACKYARD header and visual language.
+    */
+
+    .magazine-page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    .magazine-masthead {
+      padding: clamp(3rem, 8vw, 7rem) 0 2rem;
+      border-bottom: 1px solid var(--ink, #1a1a18);
+    }
+
+    .magazine-kicker,
+    .magazine-section-label,
+    .magazine-issue-number,
+    .magazine-card-source,
+    .magazine-card-index {
+      margin: 0;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    .magazine-kicker {
+      margin-bottom: 1.15rem;
+    }
+
+    .magazine-title {
+      max-width: 15ch;
+      margin: 0;
+      color: var(--ink, #1a1a18);
+      font-family: inherit;
+      font-size: clamp(4rem, 12vw, 10rem);
+      font-weight: 800;
+      letter-spacing: -0.075em;
+      line-height: 0.78;
+      text-transform: uppercase;
+    }
+
+    .magazine-subtitle {
+      max-width: 40rem;
+      margin: 2.1rem 0 0;
+      font-size: clamp(1rem, 1.8vw, 1.35rem);
+      line-height: 1.45;
+    }
+
+    .magazine-issue-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--ink, #1a1a18);
+    }
+
+    .magazine-introduction {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      gap: 2rem;
+      padding: 3.5rem 0 4rem;
+      border-bottom: 1px solid var(--ink, #1a1a18);
+    }
+
+    .magazine-introduction p {
+      max-width: 42rem;
+      margin: 0;
+      font-size: clamp(1.2rem, 2.1vw, 1.8rem);
+      line-height: 1.35;
+    }
+
+    .magazine-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1px;
+      margin-top: 4rem;
+      border: 1px solid var(--ink, #1a1a18);
+      background: var(--ink, #1a1a18);
+    }
+
+    .magazine-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 28rem;
+      padding: 1.5rem;
+      background: var(--paper, #ffffff);
+      color: var(--ink, #1a1a18);
+      text-decoration: none;
+      transition: background-color 160ms ease, color 160ms ease;
+    }
+
+    .magazine-card:hover,
+    .magazine-card:focus-visible {
+      background: var(--ink, #1a1a18);
+      color: var(--ink-faint, #ffffff);
+      outline: none;
+    }
+
+    .magazine-card-primary {
+      grid-column: span 6;
+    }
+
+    .magazine-card-secondary {
+      grid-column: span 3;
+    }
+
+    .magazine-card-topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .magazine-card-title {
+      max-width: 12ch;
+      margin: auto 0 1rem;
+      font-family: inherit;
+      font-size: clamp(2rem, 4vw, 4.5rem);
+      font-weight: 750;
+      letter-spacing: -0.055em;
+      line-height: 0.9;
+    }
+
+    .magazine-card-secondary .magazine-card-title {
+      max-width: 10ch;
+      font-size: clamp(1.8rem, 2.8vw, 3rem);
+    }
+
+    .magazine-card-excerpt {
+      max-width: 31rem;
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .magazine-card-cta {
+      margin: 1.75rem 0 0;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .magazine-closing {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      gap: 2rem;
+      margin-top: 4rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--ink, #1a1a18);
+      border-bottom: 1px solid var(--ink, #1a1a18);
+    }
+
+    .magazine-closing p {
+      max-width: 38rem;
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 800px) {
+      .magazine-page {
+        padding-right: 1rem;
+        padding-left: 1rem;
+      }
+
+      .magazine-introduction,
+      .magazine-closing {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .magazine-card-primary,
+      .magazine-card-secondary {
+        grid-column: span 12;
+        min-height: 22rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div include-html="header.html"></div>
+
+  <main id="main-content" class="magazine-page">
+    <header class="magazine-masthead">
+      <p class="magazine-kicker">Backyard Magazine presents</p>
+      <h1 class="magazine-title">The<br>Magazine</h1>
+      <p class="magazine-subtitle">
+        A periodic selection of stories, inquiries, and sounds from across
+        Heralding Time, Last Scattering Surface, and Space of Sound.
+      </p>
+
+      <div class="magazine-issue-row" aria-label="Issue information">
+        <p class="magazine-issue-number">Issue No. 01</p>
+        <p class="magazine-issue-number">September 2026</p>
+      </div>
+    </header>
+
+    <section class="magazine-introduction" aria-labelledby="letter-from-backyard">
+      <p id="letter-from-backyard" class="magazine-section-label">From Backyard</p>
+      <p>
+        The first issue gathers three different ways of looking outward:
+        the measured motion of our planet, the long life of a star, and the
+        temporal orbit of music. Read them slowly, follow the paths they
+        open, and return to their original publications for the full archive.
+      </p>
+    </section>
+
+    <section class="magazine-grid" aria-label="Issue No. 01 selections">
+      <a class="magazine-card magazine-card-primary" href="ht.html">
+        <div class="magazine-card-topline">
+          <p class="magazine-card-source">Heralding Time</p>
+          <p class="magazine-card-index">01</p>
+        </div>
+
+        <h2 class="magazine-card-title">tune the orchestra</h2>
+
+        <p class="magazine-card-excerpt">
+          On the motion of the Earth — chapter IX.
+        </p>
+
+        <p class="magazine-card-cta">Read in Heralding Time →</p>
+      </a>
+
+      <a class="magazine-card magazine-card-secondary" href="lss.html">
+        <div class="magazine-card-topline">
+          <p class="magazine-card-source">Last Scattering Surface</p>
+          <p class="magazine-card-index">02</p>
+        </div>
+
+        <h2 class="magazine-card-title">A story of a star — Part V</h2>
+
+        <p class="magazine-card-excerpt">
+          Burning, aging, and the inevitable consequence of a star's journey.
+        </p>
+
+        <p class="magazine-card-cta">Read in LSS →</p>
+      </a>
+
+      <a class="magazine-card magazine-card-secondary" href="sp.html">
+        <div class="magazine-card-topline">
+          <p class="magazine-card-source">Space of Sound</p>
+          <p class="magazine-card-index">03</p>
+        </div>
+
+        <h2 class="magazine-card-title">sound orbits #8</h2>
+
+        <p class="magazine-card-excerpt">
+          This week in music: Sun 01 March — Sat 14 Mar.
+        </p>
+
+        <p class="magazine-card-cta">Read in Space of Sound →</p>
+      </a>
+    </section>
+
+    <section class="magazine-closing" aria-labelledby="continue-reading">
+      <p id="continue-reading" class="magazine-section-label">Continue reading</p>
+      <p>
+        The Magazine is an edited path through Backyard, not a replacement
+        for its three publications. Browse the complete archives of
+        <a href="ht.html">Heralding Time</a>,
+        <a href="lss.html">Last Scattering Surface</a>, and
+        <a href="sp.html">Space of Sound</a>.
+      </p>
+    </section>
+  </main>
+
+  <div include-html="footer.html"></div>
+
+  <script src="includeHTML.js"></script>
+  <script>
+    includeHTML();
+  </script>
+  <script src="layout.js"></script>
+  <script src="headerScrollState.js"></script>
+</body>
+</html>
