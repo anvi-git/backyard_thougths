@@ -943,6 +943,11 @@ img { display: block; max-width: 100%; height: auto; }
 .section-nav-item:hover { background: var(--paper-off); color: var(--accent); }
 .section-nav-item.active { border-bottom: 2px solid var(--ink); }
 
+@media (min-width: 761px) {
+  .section-nav-inner { flex-wrap: nowrap; }
+  .section-nav-item { padding-right: 0.85rem; padding-left: 0.85rem; white-space: nowrap; }
+}
+
 /* ─── Edition Bar ────────────────────────────────────────── */
 .edition-bar {
   background: var(--paper-off);

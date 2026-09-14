@@ -8,7 +8,8 @@
     'sp.html': 'Space of Sound',
     'blog.html': 'The Blog',
     'magazine.html': 'The Magazine',
-    'about.html': 'About'
+    'about.html': 'About',
+    'observe-fire.html': 'Observe the Fire'
   };
 
   const activeLabel = pageTitles[path] || '';

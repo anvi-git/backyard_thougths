@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OBSERVE THE FIRE</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon_io/bt_logo.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=UnifrakturMaguntia&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .observe-fire-page { max-width: 1360px; margin: 0 auto; padding: 0 clamp(1rem, 3vw, 3rem) 6rem; font-family: "Work Sans", sans-serif; }
+    .observe-fire-masthead { padding-top: clamp(2.5rem, 5vw, 5rem); border-bottom: 3px solid var(--ink); }
+    .observe-fire-topline, .observe-fire-nameplate { display: flex; align-items: end; gap: 1.5rem; }
+    .observe-fire-topline { align-items: center; padding-bottom: 0.7rem; border-bottom: 1px solid var(--ink); }
+    .observe-fire-topline p, .observe-fire-nameplate p { margin: 0; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; line-height: 1.25; text-transform: uppercase; white-space: nowrap; }
+    .observe-fire-topline p:last-child, .observe-fire-nameplate p:last-child { text-align: right; }
+    .observe-fire-nameplate { padding: clamp(1.5rem, 4vw, 3.75rem) 0 1.2rem; }
+    .observe-fire-title { flex: 1 1 auto; min-width: 0; margin: 0; font-size: clamp(1.8rem, 6vw, 6rem); font-weight: 800; letter-spacing: -0.085em; line-height: 0.76; text-align: center; text-transform: uppercase; white-space: nowrap; }
+    .observe-fire-deck { max-width: 58rem; margin: 1.4rem auto 0; padding-bottom: 1.35rem; font-size: clamp(1rem, 1.6vw, 1.25rem); line-height: 1.45; text-align: center; }
+    .observe-fire-section-heading { display: flex; align-items: center; gap: 1rem; margin: 3rem 0 0; }
+    .observe-fire-section-heading h2 { flex: 0 0 auto; margin: 0; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; }
+    .observe-fire-section-heading::after { width: 100%; height: 1px; content: ""; background: var(--ink); }
+    .observe-fire-intro { max-width: 42rem; margin: 1.25rem 0 0; font-size: 1.1rem; line-height: 1.55; }
+    @media (max-width: 760px) {
+      .observe-fire-topline, .observe-fire-nameplate { gap: 0.55rem; }
+      .observe-fire-topline p, .observe-fire-nameplate p, .observe-fire-topline p:last-child, .observe-fire-nameplate p:last-child { flex: 0 1 20%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main id="main-content" class="observe-fire-page">
+    <header class="observe-fire-masthead">
+      <div class="observe-fire-topline" aria-label="Section details">
+        <p>Backyard Magazine</p>
+        <p>Climate Desk</p>
+        <p>Est. 2023</p>
+      </div>
+
+      <div class="observe-fire-nameplate">
+        <p>Notes from a changing world</p>
+        <h1 class="observe-fire-title">OBSERVE THE FIRE</h1>
+        <p>Climate change</p>
+      </div>
+
+      <p class="observe-fire-deck">Reports on the climate crisis.</p>
+    </header>
+
+    <section aria-labelledby="observe-fire-articles">
+      <div class="observe-fire-section-heading">
+        <h2 id="observe-fire-articles">Latest observations</h2>
+      </div>
+      <p class="observe-fire-intro">This space will collect writing about climate change.</p>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="layout.js"></script>
+  <script src="headerScrollState.js" defer></script>
+</body>
+</html>
