@@ -23,9 +23,19 @@
     .observe-fire-section-heading h2 { flex: 0 0 auto; margin: 0; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; }
     .observe-fire-section-heading::after { width: 100%; height: 1px; content: ""; background: var(--ink); }
     .observe-fire-intro { max-width: 42rem; margin: 1.25rem 0 0; font-size: 1.1rem; line-height: 1.55; }
+    .climate-plot-frame { max-width: 72rem; margin: 2.5rem auto 0; }
+    .climate-plot-upload { position: relative; display: grid; min-height: 24rem; place-items: center; overflow: hidden; border: 1px solid var(--ink); background: var(--paper); cursor: pointer; }
+    .climate-plot-upload:hover, .climate-plot-upload:focus-within { outline: 2px solid var(--ink); outline-offset: 4px; }
+    .climate-plot-placeholder { padding: 2rem; color: var(--ink-muted); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-align: center; text-transform: uppercase; }
+    .climate-plot-placeholder span { display: block; margin-top: 0.65rem; font-size: 0.95rem; font-weight: 400; letter-spacing: 0; text-transform: none; }
+    .climate-plot-image { display: none; width: 100%; height: 100%; max-height: 42rem; object-fit: contain; }
+    .climate-plot-image.is-visible { display: block; }
+    .climate-plot-caption { margin-top: 0.75rem; font-size: 0.78rem; line-height: 1.4; }
+    .climate-plot-file-input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; clip-path: inset(50%); }
     @media (max-width: 760px) {
       .observe-fire-topline, .observe-fire-nameplate { gap: 0.55rem; }
       .observe-fire-topline p, .observe-fire-nameplate p, .observe-fire-topline p:last-child, .observe-fire-nameplate p:last-child { flex: 0 1 20%; text-align: center; }
+      .climate-plot-upload { min-height: 15rem; }
     }
   </style>
 </head>
@@ -54,6 +64,15 @@
         <h2 id="observe-fire-articles">Latest observations</h2>
       </div>
       <p class="observe-fire-intro">This space will collect writing about climate change.</p>
+
+      <figure class="climate-plot-frame">
+        <label class="climate-plot-upload" for="climate-plot-file">
+          <span class="climate-plot-placeholder">Choose your climate plot<span>Click here to upload an image.</span></span>
+          <img class="climate-plot-image" id="climate-plot-image" alt="Uploaded climate plot">
+          <input class="climate-plot-file-input" id="climate-plot-file" type="file" accept="image/*">
+        </label>
+        <figcaption class="climate-plot-caption">Climate plot</figcaption>
+      </figure>
     </section>
   </main>
 
@@ -61,5 +80,19 @@
 
   <script src="layout.js"></script>
   <script src="headerScrollState.js" defer></script>
+  <script>
+    const climatePlotFile = document.getElementById('climate-plot-file');
+    const climatePlotImage = document.getElementById('climate-plot-image');
+    const climatePlotPlaceholder = document.querySelector('.climate-plot-placeholder');
+
+    climatePlotFile.addEventListener('change', () => {
+      const [file] = climatePlotFile.files;
+      if (!file) return;
+
+      climatePlotImage.src = URL.createObjectURL(file);
+      climatePlotImage.classList.add('is-visible');
+      climatePlotPlaceholder.hidden = true;
+    });
+  </script>
 </body>
 </html>
