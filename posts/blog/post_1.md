@@ -1,5 +1,5 @@
 <p> 
-    It's a haiku. <br>
+    An haiku. <br>
     </p>
     いざ行かむ <br>
     雪見 <br>
