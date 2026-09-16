@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observe the Fire Article</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon_io/bt_logo.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=UnifrakturMaguntia&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="observe_fire_data.js"></script>
+  <script src="backend/post_content_data.js"></script>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main id="main-content" class="page-wrapper publication-layout">
+    <article class="blog-article-container">
+      <p id="observe-fire-article-date" class="publication-small-date"></p>
+      <h1 id="observe-fire-article-title"></h1>
+      <section id="observe-fire-article-body" class="blog-article-content"></section>
+    </article>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    function escapeHtml(value) {
+      return (value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function renderBody(container, body) {
+      const trimmed = (body || '').trim();
+      if (!trimmed) {
+        container.innerHTML = '<p>This observation has no content yet.</p>';
+        return;
+      }
+
+      if (/<\s*[a-z!][^>]*>/i.test(trimmed)) {
+        container.innerHTML = trimmed;
+        return;
+      }
+
+      container.innerHTML = trimmed
+        .split(/\n{2,}/)
+        .map(block => `<p>${escapeHtml(block).replace(/\n/g, '<br>')}</p>`)
+        .join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('article');
+      const article = (window.OBSERVE_FIRE_ARTICLES || {})[id];
+      const body = document.getElementById('observe-fire-article-body');
+
+      if (!article) {
+        body.innerHTML = '<p>Observation not found.</p>';
+        return;
+      }
+
+      document.getElementById('observe-fire-article-title').textContent = article.title || '';
+      document.getElementById('observe-fire-article-date').textContent = article.date || '';
+      const embeddedBody = window.POST_CONTENTS && window.POST_CONTENTS[article.markdownFile];
+
+      if (typeof embeddedBody === 'string') {
+        renderBody(body, embeddedBody);
+        return;
+      }
+
+      fetch(article.markdownFile)
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.text();
+        })
+        .then(content => renderBody(body, content))
+        .catch(() => { body.innerHTML = '<p>Unable to load this observation.</p>'; });
+    });
+  </script>
+  <script src="layout.js"></script>
+  <script src="headerScrollState.js" defer></script>
+</body>
+</html>

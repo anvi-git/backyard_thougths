@@ -30,7 +30,7 @@ const files = walk(POSTS_DIR).sort();
 const map = {};
 
 for (const filePath of files) {
-  const relativePath = toPosix(path.relative(SCRIPT_DIR, filePath));
+  const relativePath = toPosix(path.relative(PROJECT_ROOT, filePath));
   map[relativePath] = fs.readFileSync(filePath, 'utf8');
 }
 

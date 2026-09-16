@@ -1,0 +1,1 @@
+window.OBSERVE_FIRE_ARTICLES = {};
