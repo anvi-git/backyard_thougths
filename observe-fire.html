@@ -59,11 +59,7 @@
     </header>
 
     <section aria-labelledby="observe-fire-articles">
-      <div class="observe-fire-section-heading">
-        <h2 id="observe-fire-articles">Latest observations</h2>
-      </div>
       <div id="observe-fire-posts" class="observe-fire-posts"></div>
-
       <div class="observe-fire-section-heading">
         <h2 id="observe-fire-plots">Climate records</h2>
       </div>
@@ -107,7 +103,7 @@
       });
 
       if (!ids.length) {
-        postsContainer.innerHTML = '<p class="observe-fire-empty">No observations published yet.</p>';
+        postsContainer.innerHTML = '<p class="observe-fire-empty"></p>';
         return;
       }
 
