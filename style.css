@@ -1205,6 +1205,39 @@ img { display: block; max-width: 100%; height: auto; }
   color: var(--ink-muted);
   letter-spacing: 0.04em;
 }
+.nl-byline:hover { color: var(--accent); }
+
+/* ─── More Sections ──────────────────────────────────────── */
+.more-sections-section {
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.section-spotlight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--col-gap);
+}
+.section-spotlight {
+  min-width: 0;
+}
+.section-spotlight-image-wrap {
+  aspect-ratio: 3 / 1.25;
+  overflow: hidden;
+  background: var(--paper-warm);
+  margin-bottom: 0.7rem;
+}
+.section-spotlight-image-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.section-spotlight:hover .section-spotlight-image-wrap img { transform: scale(1.03); }
+.section-spotlight .nl-deck { max-width: 48ch; }
+@media (max-width: 640px) {
+  .section-spotlight-grid { grid-template-columns: 1fr; }
+}
 
 /* ─── Latest Posts ─────────────────────────────────────────── */
 .latest-section {
