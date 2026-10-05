@@ -4,22 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Backyard</title>
+  <meta name="description" content="Backyard - A digital magazine and collection of publications covering history of physics, cosmology, music, and climate observations.">
+  <meta property="og:title" content="Backyard">
+  <meta property="og:description" content="Backyard - A digital magazine and collection of publications covering history of physics, cosmology, music, and climate observations.">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon_io/bt_logo.png" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=UnifrakturMaguntia&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="site-header"></div>
-
-  <main id="main-content" class="page-wrapper">
-  </main>
-
-  <script src="layout.js"></script>
-  <script src="headerScrollState.js" defer></script>
-</body>
 
   <!-- Main content -->
   <main id="main-content" class="page-wrapper">
@@ -164,6 +159,28 @@
         </div>
 
       </div>
+
+      <!-- ── Newsletter subscription banner ──────────────── -->
+      <div class="newsletter-subscribe-strip" aria-label="Subscribe to Backyard Newsletter">
+        <div class="newsletter-subscribe-text">
+          <p class="nl-subscribe-kicker">Free on Substack</p>
+          <h3 class="nl-subscribe-title">Subscribe to Backyard Magazine</h3>
+          <p class="nl-subscribe-desc">Get the latest issues, scientific explorations, and sound recommendations delivered to your inbox.</p>
+        </div>
+        <form class="newsletter-subscribe-form" action="https://substack.com/@backyardmagazine" method="get">
+          <div class="newsletter-subscribe-inputs">
+            <input 
+              type="email" 
+              name="email" 
+              class="newsletter-subscribe-input" 
+              placeholder="Enter your email address" 
+              aria-label="Email address" 
+              required
+            >
+            <button type="submit" class="newsletter-subscribe-btn">Subscribe</button>
+          </div>
+        </form>
+      </div>
     </section>
 
     <!-- ── More sections ──────────────────────────────── -->
@@ -278,7 +295,7 @@
 
   <div id="site-footer"></div>
   
-  </script>
+  <script src="layout.js"></script>
   <script src="headerScrollState.js" defer></script>
 </body>
 </html>

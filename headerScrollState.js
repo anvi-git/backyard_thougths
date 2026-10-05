@@ -53,13 +53,23 @@
         spArticle: 'SPACE of SOUND Article',
         post: 'Post'
       },
-      // index: {
-      //   title: 'Backyard Thoughts',
-      //   body: 'Welcome. Use the <a href="about.html">about</a> section to read the bio and contact details, or jump straight to the publications from the banner above.'
-      // },
+      index: {
+        title: 'Backyard Thoughts',
+        body: 'Welcome. Use the <a href="about.html">about</a> section to read the bio and contact details, or jump straight to the publications from the banner above.'
+      },
       about: {
         title: 'about',
-        html: ''
+        html: `
+          <section class="about-copy">
+            <h1>Hello!</h1>
+            <p>I am also on Substack, with:<br>
+            - <a href="https://heraldingtime.substack.com/" target="_blank" rel="noopener noreferrer">Heralding Time</a>, a blog on the history and philosophy of science;<br>
+            - <a href="https://lastscatteringsurface.substack.com/" target="_blank" rel="noopener noreferrer">LAST SCATTERING SURFACE</a>, a blog on astrophysics and cosmology;<br>
+            - <a href="https://spaceofsound.substack.com/" target="_blank" rel="noopener noreferrer">SPACE of SOUND</a>, a blog on music.</p>
+            <h2>Contact</h2>
+            <p>If you'd like to get in touch, you can send me an <a href="mailto:aviscusi11@gmail.com">email</a>.</p>
+          </section>
+        `
       },
       landing: {
         website: 'Website',
@@ -445,15 +455,24 @@
       return;
     }
 
-    const text = copy[language].index;
-    const titleNode = document.querySelector('main section h1');
-    const paragraphNode = document.querySelector('main section p');
+    const text = copy[language]?.index;
+    if (!text) {
+      return;
+    }
 
-    if (titleNode) {
+    const legacySection = document.querySelector('main section.legacy-welcome, main section.welcome');
+    if (!legacySection) {
+      return;
+    }
+
+    const titleNode = legacySection.querySelector('h1');
+    const paragraphNode = legacySection.querySelector('p');
+
+    if (titleNode && text.title) {
       titleNode.textContent = text.title;
     }
 
-    if (paragraphNode) {
+    if (paragraphNode && text.body) {
       paragraphNode.innerHTML = text.body;
       const aboutLink = paragraphNode.querySelector('a[href="about.html"]');
       if (aboutLink) {
@@ -471,7 +490,10 @@
     const mainNode = document.querySelector('main');
     if (!mainNode) return;
 
-    mainNode.innerHTML = copy[language].about.html;
+    const aboutHtml = copy[language]?.about?.html;
+    if (aboutHtml) {
+      mainNode.innerHTML = aboutHtml;
+    }
   }
 
   function updateDynamicNotices(language) {

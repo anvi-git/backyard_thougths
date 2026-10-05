@@ -43,10 +43,26 @@
     bar.textContent = `${months[now.getMonth()]} ${now.getFullYear()} · Vol. ${now.getFullYear() - 2025}, No. ${now.getMonth() + 1}${activeLabel ? ' · ' + activeLabel : ''}`;
   }
 
+  function handleNewsletterSubscription() {
+    document.addEventListener('submit', (event) => {
+      const form = event.target.closest('.newsletter-subscribe-form, .footer-subscribe-form');
+      if (!form) return;
+      event.preventDefault();
+      const emailInput = form.querySelector('input[type="email"]');
+      const email = emailInput ? emailInput.value.trim() : '';
+      const baseUrl = 'https://substack.com/@backyardmagazine';
+      const redirectUrl = email
+        ? `${baseUrl}?email=${encodeURIComponent(email)}`
+        : baseUrl;
+      window.location.href = redirectUrl;
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', async () => {
     await loadPartial('site-header', 'header.html');
     await loadPartial('site-footer', 'footer.html');
     activateNav();
     setEditionDate();
+    handleNewsletterSubscription();
   });
 })();

@@ -1,0 +1,8 @@
+{
+  "name": "Backyard",
+  "description": "Backyard - A digital magazine and collection of publications covering history of physics, cosmology, music, and climate observations.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
